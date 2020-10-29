@@ -1,0 +1,15 @@
+.game-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.step-word {
+  border-radius: 8px;
+  color: #808080;
+  background: #f0c239;
+  font-size: 16px;
+}
+.game-info {
+  list-style: none;
+}
