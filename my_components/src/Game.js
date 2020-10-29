@@ -16,19 +16,24 @@ class Game extends Component {
       xIsNext: true,
       stepNumber: 0,
       position: "",
+      isMove: false,
     };
   }
   render() {
-    const { history, xIsNext, stepNumber, position } = this.state;
+    const { history, xIsNext, stepNumber, position, isMove } = this.state;
     const current = history[stepNumber];
     const winner = this.whoIsWinner(current.squares);
 
-    const moves = history.map((step, move) => {
-      const desc = move ? "Go to step " + move : "Go to game start";
+    const moves = history.map((step, index) => {
+      const desc = index ? "Go to step " + index : "Go to game start";
       return (
-        <li key={move}>
-          <button onClick={() => this.handleJumpTo(move)} className="step-word">
-            {move === 0 ? `重新开始 --- ${desc}` : `第${move}步 --- ${desc}`}
+        <li key={index}>
+          <button
+            onClick={() => this.handleJumpTo(index)}
+            className="step-word"
+            style={{ fontWeight: index === stepNumber ? "700" : "" }}
+          >
+            {index === 0 ? `重新开始 --- ${desc}` : `第${index}步 --- ${desc}`}
           </button>
         </li>
       );
@@ -89,8 +94,8 @@ class Game extends Component {
     this.setState({
       stepNumber: stepNumber,
       xIsNext: stepNumber % 2 === 0,
+      isMove: true,
     });
-    console.log(this.state.xIsNext);
   }
 
   // 判断胜负
