@@ -6,9 +6,12 @@ import "./Board.css";
 export default function Board(props) {
   const { squares, handleItemClick } = props;
 
-  function renderSquare(i) {
+  function renderSquare(index) {
     return (
-      <Square number={squares[i]} handleItemClick={() => handleItemClick(i)} />
+      <Square
+        number={squares[index]}
+        handleItemClick={() => handleItemClick(index)}
+      />
     );
   }
   return (

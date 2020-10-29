@@ -1,12 +1,12 @@
 .board-wrapper {
-  width: 105px;
+  width: 160px;
   display: flex;
   flex-wrap: wrap;
 }
 .board-row {
   float: left;
-  width: 105px;
-  max-width: 105px;
+  width: 160px;
+  max-width: 160px;
 }
 .board-row:after {
   clear: both;

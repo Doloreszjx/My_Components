@@ -15,11 +15,12 @@ class Game extends Component {
       ],
       xIsNext: true,
       stepNumber: 0,
+      position: "",
     };
   }
   render() {
-    const history = this.state.history;
-    const current = history[this.state.stepNumber];
+    const { history, xIsNext, stepNumber, position } = this.state;
+    const current = history[stepNumber];
     const winner = this.whoIsWinner(current.squares);
 
     const moves = history.map((step, move) => {
@@ -35,9 +36,9 @@ class Game extends Component {
 
     let status;
     if (winner) {
-      status = "Winner is: " + winner;
+      status = `Winner is: ${winner}!!!!  ${position}`;
     } else {
-      status = "Next one is:" + (this.state.xIsNext ? "X" : "O");
+      status = "Next one is:" + (xIsNext ? "X" : "O");
     }
 
     return (
@@ -46,10 +47,11 @@ class Game extends Component {
         <div className="game-board">
           <Board
             squares={current.squares}
-            handleItemClick={(i) => this.handleClick(i)}
+            handleItemClick={(index) => this.handleClick(index)}
           />
         </div>
         <div className="game-info">{moves}</div>
+        <div className="game-position">{position}</div>
       </div>
     );
   }
@@ -59,16 +61,17 @@ class Game extends Component {
   // history: 记录了全部的历史棋盘
   // current: 当前棋盘
   // stepNumber: 第几步，从0开始。因此最新步数等于历史长度
-  handleClick(i) {
+  handleClick(index) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
+    const position = this.currentPosition(index);
 
-    if (this.whoIsWinner(squares) || squares[i]) {
+    if (this.whoIsWinner(squares) || squares[index]) {
       return;
     }
 
-    squares[i] = this.state.xIsNext ? "X" : "O";
+    squares[index] = this.state.xIsNext ? "X" : "O";
 
     this.setState({
       history: history.concat([
@@ -78,7 +81,16 @@ class Game extends Component {
       ]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
+      position: position,
     });
+  }
+  // 历史棋盘回退
+  handleJumpTo(stepNumber) {
+    this.setState({
+      stepNumber: stepNumber,
+      xIsNext: stepNumber % 2 === 0,
+    });
+    console.log(this.state.xIsNext);
   }
 
   // 判断胜负
@@ -107,13 +119,27 @@ class Game extends Component {
     }
     return null;
   }
-  // 历史棋盘回退
-  handleJumpTo(stepNumber) {
-    this.setState({
-      stepNumber: stepNumber,
-      xIsNext: stepNumber % 2 === 0,
-    });
-    console.log(this.state.xIsNext);
+
+  // 通过获取此时点击棋盘的序号来判断落子的坐标
+  currentPosition(index) {
+    let line = [
+      [0, 0],
+      [0, 1],
+      [0, 2],
+      [1, 0],
+      [1, 1],
+      [1, 2],
+      [2, 0],
+      [2, 1],
+      [2, 2],
+    ];
+    console.log(index);
+    for (let i = 0; i <= line.length; i++) {
+      if (index === i) {
+        return `This step is at (${line[i]})`;
+      }
+    }
+    return null;
   }
 }
 
