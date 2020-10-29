@@ -16,21 +16,15 @@ export default function Board(props) {
   }
   return (
     <div className="board-wrapper">
-      <div className="board-row">
-        {renderSquare(0)}
-        {renderSquare(1)}
-        {renderSquare(2)}
-      </div>
-      <div className="board-row">
-        {renderSquare(3)}
-        {renderSquare(4)}
-        {renderSquare(5)}
-      </div>
-      <div className="board-row">
-        {renderSquare(6)}
-        {renderSquare(7)}
-        {renderSquare(8)}
-      </div>
+      {Array(3)
+        .fill(null)
+        .map((itemx, x) => (
+          <div className="board-row" key={x}>
+            {Array(3)
+              .fill(null)
+              .map((itemy, y) => renderSquare(3 * x + y))}
+          </div>
+        ))}
     </div>
   );
 }
