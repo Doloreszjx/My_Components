@@ -1,4 +1,5 @@
 .game-wrapper {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,14 +19,27 @@
   margin: 6px;
 }
 .game-info {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   list-style: none;
   margin: 12px;
+  padding-top: 32px;
   border: 2px solid #ff7500;
   border-radius: 8px;
+}
+.game-button {
+  position: absolute;
+  top: 0;
+  right: 2px;
+  margin: 5px;
+  font-size: 16px;
+  border: 2px solid #ff7500;
+  border-radius: 6px;
+  color: #fff;
+  background: #ffb61e;
 }
 .game-position {
   position: absolute;

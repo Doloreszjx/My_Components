@@ -15,12 +15,13 @@ class Game extends Component {
       ],
       xIsNext: true,
       stepNumber: 0,
+      lastRound: 0,
       position: "",
-      isMove: false,
+      isSort: true,
     };
   }
   render() {
-    const { history, xIsNext, stepNumber, position, isMove } = this.state;
+    const { history, xIsNext, stepNumber, position, isSort } = this.state;
     const current = history[stepNumber];
     const winner = this.whoIsWinner(current.squares);
 
@@ -55,7 +56,15 @@ class Game extends Component {
             handleItemClick={(index) => this.handleClick(index)}
           />
         </div>
-        <div className="game-info">{moves}</div>
+        <div className="game-info">
+          <button
+            className="game-button"
+            onClick={() => this.handleChangeSort()}
+          >
+            {isSort ? "倒序" : "正序"}
+          </button>
+          {isSort ? moves : moves.reverse()}
+        </div>
         <div className="game-position">{position}</div>
       </div>
     );
@@ -88,13 +97,21 @@ class Game extends Component {
       xIsNext: !this.state.xIsNext,
       position: position,
     });
+    console.log(history);
   }
   // 历史棋盘回退
   handleJumpTo(stepNumber) {
     this.setState({
       stepNumber: stepNumber,
       xIsNext: stepNumber % 2 === 0,
-      isMove: true,
+    });
+  }
+
+  //改变历史记录的排列顺序
+  // isSort: 正序; !isSort: 逆序
+  handleChangeSort() {
+    this.setState({
+      isSort: !this.state.isSort,
     });
   }
 

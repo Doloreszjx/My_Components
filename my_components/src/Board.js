@@ -9,6 +9,7 @@ export default function Board(props) {
   function renderSquare(index) {
     return (
       <Square
+        key={index}
         number={squares[index]}
         handleItemClick={() => handleItemClick(index)}
       />
