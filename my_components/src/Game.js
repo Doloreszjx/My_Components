@@ -43,13 +43,17 @@ class Game extends Component {
     let status;
     if (winner) {
       status = `Winner is: ${winner.winnerCharactor}!!!!  ${position}`;
+    } else if (history.length >= 9) {
+      status = "No one is winner, it ends in a draw";
     } else {
       status = "Next one is:" + (xIsNext ? "X" : "O");
     }
 
     return (
       <div className="game-wrapper">
-        <div className="game-status">{status}</div>
+        <div className="game-status" style={{ color: winner ? "#ff7500" : "" }}>
+          {status}
+        </div>
         <div className="game-board">
           <Board
             winnerPosition={winner ? winner.winnerIndex : ""}
@@ -66,7 +70,12 @@ class Game extends Component {
           </button>
           {isSort ? moves : moves.reverse()}
         </div>
-        <div className="game-position">{position}</div>
+        <div
+          className="game-position"
+          style={{ color: winner ? "#ff7500" : "" }}
+        >
+          {position}
+        </div>
       </div>
     );
   }
@@ -98,7 +107,6 @@ class Game extends Component {
       xIsNext: !this.state.xIsNext,
       position: position,
     });
-    console.log(history);
   }
   // 历史棋盘回退
   handleJumpTo(stepNumber) {
@@ -159,7 +167,7 @@ class Game extends Component {
       [2, 1],
       [2, 2],
     ];
-    console.log(index);
+
     for (let i = 0; i <= line.length; i++) {
       if (index === i) {
         return `This step is at (${line[i]})`;
