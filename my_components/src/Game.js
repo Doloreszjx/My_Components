@@ -42,7 +42,7 @@ class Game extends Component {
 
     let status;
     if (winner) {
-      status = `Winner is: ${winner}!!!!  ${position}`;
+      status = `Winner is: ${winner.winnerCharactor}!!!!  ${position}`;
     } else {
       status = "Next one is:" + (xIsNext ? "X" : "O");
     }
@@ -52,6 +52,7 @@ class Game extends Component {
         <div className="game-status">{status}</div>
         <div className="game-board">
           <Board
+            winnerPosition={winner ? winner.winnerIndex : ""}
             squares={current.squares}
             handleItemClick={(index) => this.handleClick(index)}
           />
@@ -136,7 +137,10 @@ class Game extends Component {
         squares[a] === squares[b] &&
         squares[a] === squares[c]
       ) {
-        return squares[a];
+        return {
+          winnerCharactor: squares[a],
+          winnerIndex: [a, b, c],
+        };
       }
     }
     return null;

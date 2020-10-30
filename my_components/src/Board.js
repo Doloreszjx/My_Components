@@ -4,13 +4,14 @@ import Square from "./Square";
 import "./Board.css";
 
 export default function Board(props) {
-  const { squares, handleItemClick } = props;
+  const { squares, winnerPosition, handleItemClick } = props;
 
   function renderSquare(index) {
     return (
       <Square
         key={index}
         number={squares[index]}
+        winnerPosition={winnerPosition}
         handleItemClick={() => handleItemClick(index)}
       />
     );
