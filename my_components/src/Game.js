@@ -15,18 +15,21 @@ class Game extends Component {
       ],
       xIsNext: true,
       stepNumber: 0,
-      lastRound: 0,
-      position: "",
+      lastIndex: 0,
       isSort: true,
     };
   }
   render() {
-    const { history, xIsNext, stepNumber, position, isSort } = this.state;
+    const { history, xIsNext, stepNumber, isSort } = this.state;
     const current = history[stepNumber];
     const winner = this.whoIsWinner(current.squares);
 
     const moves = history.map((step, index) => {
-      const desc = index ? "Go to step " + index : "Go to game start";
+      const desc = index
+        ? "Go to step " +
+          index +
+          `最后落子点: (${parseInt(step.lastIndex / 3)}, ${step.lastIndex % 3})`
+        : "Go to game start";
       return (
         <li key={index}>
           <button
@@ -42,7 +45,7 @@ class Game extends Component {
 
     let status;
     if (winner) {
-      status = `Winner is: ${winner.winnerCharactor}!!!!  ${position}`;
+      status = `Winner is: ${winner.winnerCharactor}!!!!`;
     } else if (history.length >= 9) {
       status = "No one is winner, it ends in a draw";
     } else {
@@ -70,12 +73,6 @@ class Game extends Component {
           </button>
           {isSort ? moves : moves.reverse()}
         </div>
-        <div
-          className="game-position"
-          style={{ color: winner ? "#ff7500" : "" }}
-        >
-          {position}
-        </div>
       </div>
     );
   }
@@ -89,7 +86,6 @@ class Game extends Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-    const position = this.currentPosition(index);
 
     if (this.whoIsWinner(squares) || squares[index]) {
       return;
@@ -101,11 +97,11 @@ class Game extends Component {
       history: history.concat([
         {
           squares: squares,
+          lastIndex: index,
         },
       ]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
-      position: position,
     });
   }
   // 历史棋盘回退
@@ -149,28 +145,6 @@ class Game extends Component {
           winnerCharactor: squares[a],
           winnerIndex: [a, b, c],
         };
-      }
-    }
-    return null;
-  }
-
-  // 通过获取此时点击棋盘的序号来判断落子的坐标
-  currentPosition(index) {
-    let line = [
-      [0, 0],
-      [0, 1],
-      [0, 2],
-      [1, 0],
-      [1, 1],
-      [1, 2],
-      [2, 0],
-      [2, 1],
-      [2, 2],
-    ];
-
-    for (let i = 0; i <= line.length; i++) {
-      if (index === i) {
-        return `This step is at (${line[i]})`;
       }
     }
     return null;
