@@ -1,0 +1,22 @@
+.board-wrapper {
+  width: 160px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.board-row {
+  float: left;
+  width: 160px;
+  max-width: 160px;
+}
+.board-row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.board-status {
+  height: 20px;
+  line-height: 20px;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 8px;
+}
